@@ -1,0 +1,18 @@
+cmake_minimum_required(VERSION 3.12)
+
+include(pico_sdk_import.cmake)
+
+pico_sdk_init()
+
+project(FPTest)
+
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+
+add_executable(FPTest main.c)
+
+# pull in common dependencies
+target_link_libraries(FPTest pico_stdlib)
+
+# create map/bin/hex file etc.
+pico_add_extra_outputs(FPTest)
+
