@@ -1,0 +1,25 @@
+
+Pico LCD Projeleri
+
+hello-world projesinde Waveshare'in
+	1.3inch LCD Display Module for Raspberry Pi Pico, 65K Colors, 240×240, SPI
+LCD'si kullanıldı.
+Link:https://www.waveshare.com/pico-lcd-1.3.htm
+
+Wiki Sitesi : https://www.waveshare.com/wiki/Pico-LCD-1.3
+
+Kütüphane olarak
+	https://www.waveshare.com/w/upload/7/74/Pico_LCD_code.7z
+adresindeki kütüphane kullanıldı.
+
+pico-lcd ismi ile kaydedildi.
+
+Klasör düzeni:
+
+--lcd
+----hello-world
+----pico-lcd
+----lib
+
+Buradaki lib klasörü Cmake proje oluşturması kolay olsun diye pico-lcd klasörü içindeki lib klasörü içindekiler birleştirilerek oluşturuldu.
+

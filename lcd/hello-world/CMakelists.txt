@@ -1,0 +1,29 @@
+cmake_minimum_required(VERSION 3.12)
+
+include($ENV{PICO_SDK_PATH}/external/pico_sdk_import.cmake)
+
+pico_sdk_init()
+
+project(hello-world)
+
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+
+set(LCD_LIB_PATH "..")
+
+file(GLOB LIB_SRC
+        "../lib/*.c"
+        )
+include_directories(${LCD_LIB_PATH}/lib)
+
+add_executable(hello-world main.c ${LIB_SRC})
+
+# pull in common dependencies
+target_link_libraries(hello-world pico_stdlib hardware_spi hardware_i2c hardware_pwm)
+
+# create map/bin/hex file etc.
+pico_add_extra_outputs(hello-world)
+
+
+# Enable usb output, disable uart output
+pico_enable_stdio_usb(${PROJECT_NAME} 0)
+pico_enable_stdio_uart(${PROJECT_NAME} 1)

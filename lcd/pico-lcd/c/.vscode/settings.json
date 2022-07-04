@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "lcd_1in3.h": "c",
+        "epd_test.h": "c",
+        "dev_config.h": "c",
+        "debug.h": "c"
+    }
+}

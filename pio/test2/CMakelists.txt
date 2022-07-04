@@ -1,0 +1,23 @@
+cmake_minimum_required(VERSION 3.12)
+
+include($ENV{PICO_SDK_PATH}/external/pico_sdk_import.cmake)
+
+pico_sdk_init()
+
+project(pio)
+
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+
+add_executable(pio main.c)
+# Create C header file with the name <pio program>.pio.h
+pico_generate_pio_header(${PROJECT_NAME}  ${CMAKE_CURRENT_LIST_DIR}/main.pio)
+# pull in common dependencies
+target_link_libraries(pio pico_stdlib hardware_pio)
+
+# create map/bin/hex file etc.
+pico_add_extra_outputs(pio)
+
+
+# Enable usb output, disable uart output
+pico_enable_stdio_usb(${PROJECT_NAME} 0)
+pico_enable_stdio_uart(${PROJECT_NAME} 1)
