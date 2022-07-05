@@ -184,7 +184,7 @@ UBYTE DEV_Module_Init(void)
     slice_num = pwm_gpio_to_slice_num(EPD_BL_PIN);
     pwm_set_wrap(slice_num, 100);
     pwm_set_chan_level(slice_num, PWM_CHAN_B, 1);
-    pwm_set_clkdiv(slice_num,50);
+    pwm_set_clkdiv(slice_num,250);
     pwm_set_enabled(slice_num, true);
     
     

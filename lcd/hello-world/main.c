@@ -44,7 +44,7 @@ int LCD_1in3_test(void)
     if(DEV_Module_Init()!=0){
         return -1;
     }
-    DEV_SET_PWM(50);
+    //DEV_SET_PWM(0);
     /* LCD Init */
     printf("1.14inch LCD demo...\r\n");
     LCD_1IN3_Init(HORIZONTAL);

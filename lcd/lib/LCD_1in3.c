@@ -185,7 +185,7 @@ parameter:
 ********************************************************************************/
 void LCD_1IN3_Init(UBYTE Scan_dir)
 {
-    DEV_SET_PWM(90);
+    DEV_SET_PWM(100);
     //Hardware reset
     LCD_1IN3_Reset();
 
