@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My First Web Page</title>
+    <script src="https://kit.fontawesome.com/93cc8f16e7.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <fieldset>
+        <legend>Jog</legend>
+        <div class="row">
+            <div class="col border">                
+                <p class="label">Speed</p>                
+                <input orient="vertical" type="range" id="jog" name="jog" min="0" max="100" value="50" oninput="jog(this.value)">                
+                 <input type="number" class="w40" id="quantity" name="quantity" min="1" max="5" value="3">
+            </div>                
+        </div>        
+    </fieldset>
+    
+         
+    <button class="topright"><i class="fa-solid fa-gear"></i></button>
+    <p>%s</p>
+    <script src="script.js"></script>
+</body>
+</html>

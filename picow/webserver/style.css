@@ -1,0 +1,133 @@
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 24px;
+    background-color: #111;
+    color: #fff;
+}
+.row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 2px;
+    margin: 0px;
+}
+.col {
+    display: flex;
+    flex-direction: column;    
+    justify-content: center;
+    align-items: flex-start;
+    padding: 2px;
+    margin: 2px;
+    border: 1px solid #444;    
+}
+
+fieldset {
+    border: 1px solid rgb(226, 226, 226);
+}
+legend {
+    font-size: 24px;
+    color: #fff;
+}
+button {
+    padding: 15px 25px;
+    font-size: 24px;
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+    color: #fff;
+    background-color: #222;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 0 2px 2px #999;
+}
+  
+button:hover {background-color: #111}
+  
+button:active {
+    background-color: #222;
+    box-shadow: 0 0 1px 1px #666;
+    transform: translateY(1px);
+}
+
+.topright {
+    position: absolute;
+    top: 28px;
+    right: 16px;    
+}
+input[type=range][orient=vertical]
+{       
+    -webkit-appearance: slider-vertical; /* Chromium */
+    width: 68px;
+    height: 175px;
+    padding: 0 5px;
+}
+
+input[type=number] {
+    width: 60px;
+    height: 30px;
+    font-size: 24px;
+    text-align: center;
+    color: #fff;
+    background-color: #222;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 0 1px 1px #999;
+    margin: 0 auto;
+}
+.label {
+    font-size: 24px;
+    text-align: center;
+    color: #fff;
+    padding: 2px;
+    margin: 0 auto;
+}
+.value {
+    font-size: 24px;
+    color: #fff;
+    text-align: center;
+    padding: 2px;
+    margin: 2px;        
+    background-color: #222;    
+}
+.border {
+    border: 1px solid #444;
+    border-radius: 5px;
+    background-color: #222;
+    box-shadow: 0 0 2px 2px #999;
+}
+.w100 {
+    display: block;
+    width: 100%;
+}
+.w80 {
+    width: 80%;
+}
+.w60 {
+    width: 60%;
+}
+.w40 {
+    width: 40%;
+}
+.w20 {
+    width: 20%;
+}
+.w10 {
+    width: 10%;
+}
+
+.h100 {
+    height: 100%;
+}
+.h80 {
+    height: 80%;
+}
+.h60 {
+    height: 60%;
+}
+.h40 {
+    height: 40%;
+}
+.h20 {
+    height: 20%;
+}
