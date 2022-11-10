@@ -1,15 +1,16 @@
 <div class="container border border-light rounded h-75">
-    <div class="row p-3">
-        <button class="btn btn-success col-1 m-1" onclick="onClickStart()">Start</button>
-        <button class="btn btn-danger col-1 m-1" onclick="onClickStop()">Stop</button>
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon1">@</span>
-            </div>
-            <input type="text" class="form-control" id="command" placeholder="command" aria-label="command" aria-describedby="basic-addon1">
-        </div>          
+    <div class="row p-3 align-items-center">
+        <button class="col btn btn-success col-1 m-1" onclick="onClickStart()">Start</button>
+        <button class="col btn btn-danger col-1 m-1" onclick="onClickStop()">Stop</button>
+        <label for="customRange1" class="col col-1 form-label">RPM :</label>
+        <input type="range" class="col form-range" min="0" max="300" id="speed" oninput="onRPMChange()">
+        <p class="col col-1 text-right" id="rpm">0</p>
     </div>
-    <div class="row fixed-bottom m-5">
-        <p>This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-    </div>
+    <div class="input-group mb-3 fixed-bottom">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Command:</span>
+        </div>
+        <input type="text" class="form-control" id="command" placeholder="command" aria-label="command" aria-describedby="basic-addon1">
+        <button class="btn btn-primary" onclick="onSendCommand()">Send</button>
+    </div>          
 </div>
