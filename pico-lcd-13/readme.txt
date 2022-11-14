@@ -20,3 +20,6 @@ font10.py
 freesans20.py
 courier20.py
 
+Yeni font olusturmak icin:
+python font_to_py.py <font dosyasi.ttf>  <font boyutu> <font dosyasi.py> -x
+Ornek :python font_to_py.py .\ARLRDBD.TTF 28 ArialRounded27.py -x
