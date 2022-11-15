@@ -15,16 +15,19 @@ with open("index.html", "r", encoding = 'utf-8') as f:
 def renderIndexPage():
     return indexHtml
 
-@app.route('/<path:path>')
-def static(request, path):
-    if '..' in path:
-        # directory traversal is not allowed
-        return 'Not found', 404
-    return send_file(path)
 
 @app.route('/')
 def index(request):
     return renderIndexPage() , 200, {'Content-Type': 'text/html'}
+
+@app.route('/status', methods=['GET'])
+def status(request):
+    stat = grbl.getStatus()
+    if stat:
+        return stat
+    else:
+        return "Not Connected"
+
 
 @app.route('/command', methods=['POST'])
 def command(request):
@@ -38,6 +41,14 @@ def command(request):
 def shutdown(request):
     request.app.shutdown()
     return 'The server is shutting down...'
+
+@app.route('/<path:path>')
+def static(request, path):
+    if '..' in path:
+        # directory traversal is not allowed
+        return 'Not found', 404
+    return send_file(path)
+
 
 if grbl.connect():
     print("Grbl connected")

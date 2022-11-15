@@ -62,7 +62,7 @@ let turn = () => {
       }
       sendCommand(`G1 G91 X${mmIncrease} F${mmpermin}`);
     }
-   setTimeout(turn, timeout-1);
+   setTimeout(turn, timeout-5);
   }
 }
 
