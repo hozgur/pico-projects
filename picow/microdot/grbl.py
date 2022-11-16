@@ -3,8 +3,10 @@ from time import sleep
 import serial
 import config
 from helpers import isPico
-def connect():
+def connect(verbose = False):
     global ser
+    global _verbose
+    _verbose = verbose
     try:
         ser = serial.Serial(config.serialPort, 115200, timeout=3)
     except Exception as e:
@@ -37,16 +39,20 @@ def sendCommand(command):
         command = command + "\r"
         ser.write(command.encode())
         res = getResponse()
-        print(res)
+        if res and _verbose:
+            print(res)
         return res
 
 def close():
     if ser and ser.isOpen():
         ser.close()
+        if _verbose:
+            print("Serial port closed")
 
 def getResponse():
     if ser and ser.isOpen():
-        print("Waiting for response")
+        if _verbose:
+            print("Waiting for response")
         return ser.readline().decode().strip()
 
 def getStatus():
@@ -54,7 +60,8 @@ def getStatus():
         status = sendCommand("?")        
         if status:
             stat =parseStatus(status)
-            print(stat)
+            if _verbose:
+                print(stat)
             return stat
         else:
             return None
@@ -70,14 +77,14 @@ def parseStatus(status):
         result["Status"] = status[0]
         status = status[1:]
         for s in status:
-            if s.startswith("WCO:"):
-                s = s[4:]
-                s = s.split(",")
-                result["WCO"] = {"X": float(s[0]), "Y": float(s[1]), "Z": float(s[2])}
-            elif s.startswith("MPos:"):
+            if s.startswith("MPos:"):
                 s = s[5:]
                 s = s.split(",")
                 result["MPos"] = {"X": float(s[0]), "Y": float(s[1]), "Z": float(s[2])}
+            #elif s.startswith("WCO:"):
+            #    s = s[4:]
+            #    s = s.split(",")
+            #    result["WCO"] = {"X": float(s[0]), "Y": float(s[1]), "Z": float(s[2])}
             elif s.startswith("WPos:"):
                 s = s[5:]
                 s = s.split(",")
@@ -86,15 +93,20 @@ def parseStatus(status):
                 s = s[3:]
                 s = s.split(",")
                 result["FS"] = {"S": float(s[0]), "F": float(s[1])}            
-            elif s.startswith("Pn"):
-                s = s[2:]
-                s = s.split(",")
-                result["Pn"] = {"X": int(s[0]), "Y": int(s[1]), "Z": int(s[2]), "A": int(s[3]), "B": int(s[4]), "C": int(s[5])}
-            elif s.startswith("Ov:"):
+            #elif s.startswith("Pn"):
+            #    s = s[2:]
+            #    s = s.split(",")
+            #    result["Pn"] = {"X": int(s[0]), "Y": int(s[1]), "Z": int(s[2]), "A": int(s[3]), "B": int(s[4]), "C": int(s[5])}
+            #elif s.startswith("Ov:"):
+            #    s = s[3:]
+            #    s = s.split(",")
+            #    result["Ov"] = {"A": int(s[0]), "B": int(s[1]), "C": int(s[2])}
+            #elif s.startswith("Ln:"):
+            #    s = s[3:]
+            #    result["Ln"] = int(s)
+            elif s.startswith("Bf:"):
                 s = s[3:]
                 s = s.split(",")
-                result["Ov"] = {"A": int(s[0]), "B": int(s[1]), "C": int(s[2])}
-            elif s.startswith("Ln:"):
-                s = s[3:]
-                result["Ln"] = int(s)
+                result["B"] = int(s[0])
+                result["f"] = int(s[1])
         return result

@@ -1,16 +1,21 @@
-<div class="container border border-light rounded h-75">
-    <div class="row p-3 align-items-center">
-        <button class="col btn btn-success col-1 m-1" onclick="onClickStart()">Start</button>
-        <button class="col btn btn-danger col-1 m-1" onclick="onClickStop()">Stop</button>
-        <label for="customRange1" class="col col-1 form-label">RPM :</label>
-        <input type="range" class="col form-range" min="0" max="300" id="speed" oninput="onRPMChange()">
-        <p class="col col-1 text-right" id="rpm">0</p>
-    </div>
-    <div class="input-group mb-3 fixed-bottom">
-        <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon1">Command:</span>
+<div class="d-flex flex-column justify-content-between border border-light rounded h-75">
+    <div class="d-flex flex-row p-2 align-items-center  input-group">
+        <button class="btn btn-success" onclick="onClickStart()">Start</button>
+        <button class="btn btn-danger" onclick="onClickStop()">Stop</button>
+        <button class="btn btn-primary wmin-120px" id="rpm" onclick="onClickRPM()">RPM : </button>
+        <div class="btn wmin-50" >
+            <input type="range" class="form-range" min="0" max="300" id="speed" oninput="onRPMChange()">        
         </div>
+        <div class="form-check m-2">
+            <input class="form-check-input" type="checkbox" value="" id="reverse">
+            <label class="form-check-label" for="reverse">Reverse</label>
+        </div>      
+    </div>
+    <div class="input-group align-self-end p-2">
+        <button class=" btn btn-primary" onclick="onSendCommand()">Command :</button>
+        
         <input type="text" class="form-control" id="command" placeholder="command" aria-label="command" aria-describedby="basic-addon1">
         <button class="btn btn-primary" onclick="onSendCommand()">Send</button>
-    </div>          
+    </div>
+             
 </div>

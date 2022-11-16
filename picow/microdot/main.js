@@ -45,9 +45,15 @@ let onClickStop = () => {
   console.log("stop");
 }
 
+let onClickRPM = () => {
+  let rpm_val = prompt("Please enter RPM (0-300)", $("#speed").val());
+  $("#rpm").text(`RPM : (${rpm_val})`);
+  $("#speed").val(rpm_val)
+}
+
 let onRPMChange = () => {
   rpm = $("#speed").val();
-  $("#rpm").text(rpm);
+  $("#rpm").text(`RPM : (${rpm})`);
 }
 
 let turn = () => {

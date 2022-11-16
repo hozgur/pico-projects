@@ -50,7 +50,7 @@ def static(request, path):
     return send_file(path)
 
 
-if grbl.connect():
+if grbl.connect(verbose=True):
     print("Grbl connected")
     app.run(debug=True)
 else:
