@@ -3,8 +3,8 @@ from hx711_gpio import *
 from utime import ticks_ms, ticks_diff, sleep, sleep_ms
 from machine import Pin
 
-pin_OUT = Pin(2, Pin.IN, pull=Pin.PULL_DOWN)
-pin_SCK = Pin(3, Pin.OUT)
+pin_OUT = Pin(25, Pin.IN, pull=Pin.PULL_DOWN)
+pin_SCK = Pin(15, Pin.OUT)
 
 hx = HX711(pin_SCK, pin_OUT)
 
@@ -35,6 +35,28 @@ def run100(loops=100, delay = .3):
         run(100)
         if delay:
             sleep(delay)
+
+mystr = "*" * 80
+def run2(loop = 50):
+    hx.set_gain(128)
+    for i in range(loop):    
+        sleep_ms(20)
+        data = hx.read()
+        val = (data / 1000) + 20
+        if val < 0:
+            val = 0
+        if val > 79:
+            val = 79
+        print (mystr[:int(val)])
+    
+def run3(loop = 50):
+    hx.set_gain(128)
+    for i in range(loop):    
+        sleep_ms(5)
+        data = hx.read()        
+        print (i,",",data)
+
+
 
 def minmax(loops=10000, raw=True):
     hx.set_gain(128)
@@ -74,5 +96,6 @@ def minmax(loops=10000, raw=True):
           (cnt0003/loops, cnt001/loops, cnt003/loops, cnt010/loops, cnt030/loops, cnt100/loops, cntx/loops))
 
 
-run100(loops = 20)
+run3(loop = 5400)
+#run100(loops = 20)
 # minmax(10000)

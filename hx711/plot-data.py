@@ -39,9 +39,9 @@ def animate(i, xs, ys):
     xs.append(i)
     ys.append(relProb_float/1000)
 
-    # Limit x and y lists to 20 items
-    xs = xs[-20:]
-    ys = ys[-20:]
+    # Limit x and y lists to 100 items
+    xs = xs[-100:]
+    ys = ys[-100:]
 
     # Draw x and y lists
     ax.clear()
@@ -54,5 +54,5 @@ def animate(i, xs, ys):
     plt.ylabel('Temperature (deg C)')
 
 # Set up plot to call animate() function periodically
-ani = animation.FuncAnimation(fig, animate, fargs=(xs, ys), interval=1000)
+ani = animation.FuncAnimation(fig, animate, fargs=(xs, ys), interval=1)
 plt.show()
