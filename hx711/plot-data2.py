@@ -1,15 +1,30 @@
 import pygame
 import serial
+import random
+useMockData = True
+dataCounter = 0
 
-# initialize serial port
-ser = serial.Serial()
-ser.port = 'COM10' #Arduino serial port
-ser.baudrate = 115200
-ser.timeout = 10 #specify timeout when using readline()
-ser.open()
-if ser.is_open==True:
-    print("\nAll right, serial port now open. Configuration:\n")
-    print(ser, "\n") #print serial parameters
+class SerialMock:
+    def __init__(self):
+        self.is_open = True
+    def readline(self):
+        global dataCounter
+        dataCounter += 1
+        return str(dataCounter).encode() + b',' + str(random.randint(-1000, 100000)).encode()
+
+if useMockData:
+    # Mock data
+    ser = SerialMock()
+else:
+    # initialize serial port
+    ser = serial.Serial()
+    ser.port = 'COM10' #Arduino serial port
+    ser.baudrate = 115200
+    ser.timeout = 10 #specify timeout when using readline()
+    ser.open()
+    if ser.is_open==True:
+        print("\nAll right, serial port now open. Configuration:\n")
+        print(ser, "\n") #print serial parameters
 
 pygame.init()
 screen = pygame.display.set_mode((640, 480))
