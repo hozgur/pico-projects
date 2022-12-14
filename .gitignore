@@ -11,5 +11,6 @@ CTestTestfile.cmake
 _deps
 build
 .cortex-debug*
+*.bin
 
 __pycache__
