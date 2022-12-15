@@ -15,7 +15,7 @@ class HX711:
         self.time_constant = 0.25
         self.filtered = 0
 
-        self.set_gain(gain);
+        self.set_gain(gain)
 
     def set_gain(self, gain):
         if gain is 128:

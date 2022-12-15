@@ -1,101 +1,97 @@
 from machine import Pin
 from hx711_gpio import *
-from utime import ticks_ms, ticks_diff, sleep, sleep_ms
+from utime import ticks_ms, ticks_diff, sleep, sleep_ms, sleep_us
 from machine import Pin
+from micropython import const
 
-pin_OUT = Pin(25, Pin.IN, pull=Pin.PULL_DOWN)
-pin_SCK = Pin(15, Pin.OUT)
+pin_OUT1 = Pin(15, Pin.IN, pull=Pin.PULL_DOWN)
+pin_OUT2 = Pin(16, Pin.IN, pull=Pin.PULL_DOWN)
+pin_SCK = Pin(25, Pin.OUT)
 
-hx = HX711(pin_SCK, pin_OUT)
+GAIN128 = const(1)
+GAIN64  = const(3)
+GAIN32  = const(2)
 
-hx.OFFSET = 0 # -150000
-hx.set_gain(128)
-sleep_ms(50)
 
-data = [0 for _ in range(100)]
-
-def get_median(hx, num=100):
-    for _ in range(num):
-        data[_] = hx.read()
-    data.sort()
-    return data[num // 2]
-
-def run(loops = 100):
-    start = ticks_ms()
-    hx.set_gain(128)
-    sleep_ms(50)
-    resulta = get_median(hx, loops)
-    hx.set_gain(32)
-    sleep_ms(50)
-    resultb = get_median(hx, loops)
-    print(resulta, resultb)
-
-def run100(loops=100, delay = .3):
-    for _ in range (loops):
-        run(100)
-        if delay:
-            sleep(delay)
-
-mystr = "*" * 80
-def run2(loop = 50):
-    hx.set_gain(128)
-    for i in range(loop):    
-        sleep_ms(20)
-        data = hx.read()
-        val = (data / 1000) + 20
-        if val < 0:
-            val = 0
-        if val > 79:
-            val = 79
-        print (mystr[:int(val)])
+def read1(gain):
+    for i in range(100):
+        if pin_OUT1() == 0:
+            break        
+        #print("Waiting ",ticks_ms(),i, pin_OUT1())
+        sleep_ms(1)
+    else:
+        print("Error on Read")
+        return 0
     
-def run3(loop = 50):
-    hx.set_gain(128)
-    while True:    
-        sleep_ms(12.5)
-        data = hx.read()        
-        print (data)
+    result = 0    
+    for j in range(24):
+        state = disable_irq()
+        pin_SCK(True)
+        sleep_us(2)
+        pin_SCK(False)
+        enable_irq(state)
+        result = (result << 1) | pin_OUT1()
+    for j in range(gain):
+        state = disable_irq()
+        pin_SCK(True)
+        sleep_us(2)
+        pin_SCK(False)
+        enable_irq(state)
+            
+    return result
 
 
+def read2(gain):
+    for i in range(100):
+        if pin_OUT2() == 0:
+            break        
+        print("Waiting ",i, pin_OUT2())
+        sleep_ms(1)
+    else:
+        print("Error on Read")
+        return 0
+    
+    result = 0    
+    for j in range(24 + gain):
+        state = disable_irq()
+        pin_SCK(True)
+        pin_SCK(False)
+        enable_irq(state)
+        result = (result << 1) | pin_OUT2()
 
-def minmax(loops=10000, raw=True):
-    hx.set_gain(128)
-    middle = hx.read_average(min(loops, 1000))
-    hx.filtered = middle
-    middle = abs(middle) - hx.OFFSET
-    cnt0003 = 0
-    cnt001 = 0
-    cnt003 = 0
-    cnt010 = 0
-    cnt030 = 0
-    cnt100 = 0
-    cntx = 0
-    print ("Mittelwert", middle)
-    for _ in range(loops):
-        if raw is True:
-            val = abs(hx.read()) - hx.OFFSET
-        else:
-            val = abs(hx.read_lowpass()) - hx.OFFSET
-        if middle * (1 - 0.00003) < val < middle * (1 + 0.00003):
-            cnt0003 += 1
-        elif middle * (1 - 0.0001) < val < middle * (1 + 0.0001):
-            cnt001 += 1
-        elif middle * (1 - 0.0003) < val < middle * (1 + 0.0003):
-            cnt003 += 1
-        elif middle * (1 - 0.001) < val < middle * (1 + 0.001):
-            cnt010 += 1
-        elif middle * (1 - 0.003) < val < middle * (1 + 0.003):
-            cnt030 += 1
-        elif middle * (1 - 0.01) < val < middle * (1 + 0.01):
-            cnt100 += 1
-        else:
-            cntx += 1
-            print("Really out of band at %d: %d %x"  % (_, int(val), int(val)))
+    # shift back the extra bits
+    result >>= gain    
+    return result
 
-    print("+/- 0.003%% %f\n+/- 0.01%% %f\n+/- 0.03%% %f\n+/- .1%%   %f\n+/- .3%%   %f\n+/- 1%%  %f\nBeyond:  %f" %
-          (cnt0003/loops, cnt001/loops, cnt003/loops, cnt010/loops, cnt030/loops, cnt100/loops, cntx/loops))
+def read_all(gain):
+    for i in range(100):
+        if pin_OUT1() == 0 and pin_OUT2() == 0:
+            break        
+        #print("Waiting ",i, pin_OUT1(),pin_OUT2())
+        sleep_ms(1)
+    else:
+        print("Error on Read")
+        return 0
+    
+    result1 = 0
+    result2 = 0
+    for j in range(24 + gain):
+        state = disable_irq()
+        pin_SCK(True)
+        pin_SCK(False)
+        enable_irq(state)
+        result1 = (result1 << 1) | pin_OUT1()
+        result2 = (result2 << 1) | pin_OUT2()
 
+    # shift back the extra bits
+    result1 >>= gain
+    result2 >>= gain
+    return (result1, result2)
 
-run3(loop = 15400)
-#run100(loops = 20)
-# minmax(10000)
+def run():    
+    while True:
+        sleep_ms(10)
+        data = read1(GAIN32)
+        print(data)
+        
+run()

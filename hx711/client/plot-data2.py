@@ -39,7 +39,7 @@ def readData():
     # Read data from the serial port
     line = ser.readline()
     # Decode the data
-    data = int(line) /500 + HEIGHT * 2
+    data = int(line) /500 + HEIGHT//2
     if(data > HEIGHT):        
         print("overflow+ ", bin(int(line)))
         data = HEIGHT        
