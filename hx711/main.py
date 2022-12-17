@@ -12,6 +12,8 @@ GAIN128 = const(1)
 GAIN64  = const(3)
 GAIN32  = const(2)
 
+baseShift = 6
+gainShift = [0,baseShift+2,baseShift,baseShift+1]
 
 def read1(gain):
     for i in range(100):
@@ -38,30 +40,8 @@ def read1(gain):
         pin_SCK(False)
         enable_irq(state)
             
-    return result
+    return result >> gainShift[gain]
 
-
-def read2(gain):
-    for i in range(100):
-        if pin_OUT2() == 0:
-            break        
-        print("Waiting ",i, pin_OUT2())
-        sleep_ms(1)
-    else:
-        print("Error on Read")
-        return 0
-    
-    result = 0    
-    for j in range(24 + gain):
-        state = disable_irq()
-        pin_SCK(True)
-        pin_SCK(False)
-        enable_irq(state)
-        result = (result << 1) | pin_OUT2()
-
-    # shift back the extra bits
-    result >>= gain    
-    return result
 
 def read_all(gain):
     for i in range(100):
