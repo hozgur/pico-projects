@@ -1,0 +1,30 @@
+#!meta
+
+{"kernelInfo":{"defaultKernelName":null,"items":[{"name":"csharp","languageName":"C#","aliases":["c#","cs"]},{"name":"fsharp","languageName":"F#","aliases":["f#","fs"]},{"name":"pwsh","languageName":"PowerShell","aliases":["powershell"]},{"name":"javascript","languageName":"JavaScript","aliases":["js"]},{"name":"html","languageName":"HTML"},{"name":"sql","languageName":"SQL"},{"name":"kql","languageName":"KQL"},{"name":"mermaid","languageName":"Mermaid"},{"name":"httpRequest","languageName":"http"},{"name":"value"}]}}
+
+#!csharp
+
+using System;
+// Write hello world to the console
+Console.WriteLine("Hello World!");
+// Write .Net version to the console
+Console.WriteLine(Environment.Version);
+// Write the current directory to the console
+Console.WriteLine(Environment.CurrentDirectory);
+// Write the current user name to the console
+Console.WriteLine(Environment.UserName);
+// Write the current machine name to the console
+Console.WriteLine(Environment.MachineName);
+// Write the current OS version to the console
+Console.WriteLine(Environment.OSVersion);
+
+using InTheHand;
+using InTheHand.Net;
+using InTheHand.Net.Bluetooth;
+
+// Show bluetooth devices in the console
+var bluetoothDevices = new BluetoothClient().DiscoverDevices();
+foreach (var bluetoothDevice in bluetoothDevices)
+{
+    Console.WriteLine(bluetoothDevice.DeviceName);
+}
