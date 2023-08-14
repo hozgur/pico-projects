@@ -36,7 +36,7 @@ def process_value(value):
     global counter
     signal = (value >> 31) & 0x1
     elapsed = value & 0x7fffffff
-    print(f"{counter}")
+    #print(f"{counter}")
     return signal, elapsed
 
 if __name__ == '__main__':

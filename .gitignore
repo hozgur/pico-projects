@@ -17,4 +17,4 @@ __pycache__
 
 micropython*
 .DS_Store
-*.csv
+*.isf
