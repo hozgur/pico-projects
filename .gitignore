@@ -16,3 +16,5 @@ build
 __pycache__
 
 micropython*
+.DS_Store
+*.csv
