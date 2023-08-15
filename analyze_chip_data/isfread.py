@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 
 data = read_file('TEK0000RF1.isf')
 
-adata = data[530000:1790000]
+adata = data[530000:1530000]
 
 
 

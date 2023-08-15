@@ -9,7 +9,7 @@ data_list = [(np.int8(line.split(',')[0]), float(line.split(',')[1])) for line i
 
 # Convert the list into a numpy array
 data = np.array(data_list, dtype=[('Signal', np.int8), ('Elapsed Time', float)])
-
+print("Data Size =",data.shape)
 NEW_SESSION = 0x100
 
 WAIT_RESET  = 0
@@ -27,7 +27,11 @@ def decode(data):
     bytes = []
     bits = 1
     new_session = True
+    i = 0
+    time = 0
     for signal, duration in data:
+        i += 1
+        time += duration
         if signal == 0:
             if duration > RESET_THRESHOLD:
                 state = RESET
@@ -59,6 +63,7 @@ def decode(data):
                     bytes.append(command)
                     command = 0
                     bits = 1
+    print(f"Decoded {i} bytes and {time} microseconds")
     return bytes
 
 
@@ -96,7 +101,8 @@ def parse(data):
     state = WAIT_RESET
     buffer = []
     address = 0
-    for value in data:
+    print("Parsing %d bytes" % len(data))
+    for i,value in enumerate(data):
         if value == NEW_SESSION:
             print("NEW_SESSION")
             state = READ_ROM_COMMAND
@@ -187,7 +193,7 @@ def parse(data):
         
         if state == READ_MEMORY:
             chip["data"][address] = value
-            print("Memory[%04X] = %02X" % (address, value))
+            print("(%d) Memory[%04X] = %02X" % (i, address, value))
             address += 1
             if address == 0x90:
                 print("Memory read complete unbound reading memory")
