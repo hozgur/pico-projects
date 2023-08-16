@@ -1,7 +1,0 @@
-{
-    "files.associations": {
-        "cyw43_arch.h": "c",
-        "stdlib.h": "c",
-        "time.h": "c"
-    }
-}
